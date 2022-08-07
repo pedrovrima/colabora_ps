@@ -14,8 +14,15 @@ function ProductSalesField(props: any) {
 
   return (
     <>
-    <button onClick={()=>append({sellerId:1,product:"",price:0})}>Add</button>
-      {fields.map((field, index) => 
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          append({ sellerId: 1, product: "", price: 0 });
+        }}
+      >
+        Add
+      </button>
+      {fields.map((field, index) => (
         <div key={field.id}>
           <select {...register(`productSales.${index}.sellerId`)}>
             <option value={1}>OAMa</option>
@@ -23,7 +30,7 @@ function ProductSalesField(props: any) {
           <input {...register(`productSales.${index}.product`)}></input>
           <input {...register(`productSales.${index}.price`)}></input>
         </div>
-      )}
+      ))}
     </>
   );
 }
@@ -41,7 +48,11 @@ export default function NewSeller() {
   return (
     <form onSubmit={onSubmit}>
       <label>Data</label>
-      <input {...register("date")} />
+      <input
+        type="datetime-local"
+        defaultValue={JSON.stringify(new Date())}
+        {...(register("date"), { valueAsDate: true })}
+      />
       <ProductSalesField control={control} register={register} />
       <button>Enviar</button>
     </form>
